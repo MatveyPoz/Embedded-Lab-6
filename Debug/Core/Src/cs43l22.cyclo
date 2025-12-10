@@ -1,0 +1,14 @@
+../Core/Src/cs43l22.c:6:5:cs43l22_mute	1
+../Core/Src/cs43l22.c:25:5:cs43l22_unmute	1
+../Core/Src/cs43l22.c:42:13:get_cs43l22_state	1
+../Core/Src/cs43l22.c:46:5:cs43l22_init	7
+../Core/Src/cs43l22.c:119:5:cs43l22_play	4
+../Core/Src/cs43l22.c:143:5:cs43l22_pause	5
+../Core/Src/cs43l22.c:170:5:cs43l22_resume	4
+../Core/Src/cs43l22.c:195:5:cs43l22_stop	4
+../Core/Src/cs43l22.c:220:6:cs43l22_read_reg	1
+../Core/Src/cs43l22.c:226:5:cs43l22_set_volume	2
+../Core/Src/cs43l22.c:246:6:HAL_I2S_TxCpltCallback	2
+../Core/Src/cs43l22.c:254:6:HAL_I2S_TxHalfCpltCallback	2
+../Core/Src/cs43l22.c:262:13:AUDIO_I2S_TxCpltCallback	1
+../Core/Src/cs43l22.c:265:13:AUDIO_I2S_TxHalfCpltCallback	1
