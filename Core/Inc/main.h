@@ -28,7 +28,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
-
+#include "math.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -41,7 +41,17 @@ extern "C" {
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
+#define WAVETABLE_SIZE 1024
+#define DMA_BUFFER_SIZE (WAVETABLE_SIZE * 2)
 
+
+extern volatile uint32_t current_note_index;
+extern volatile uint32_t note_time_remaining_ms;
+extern volatile double current_phase;
+extern uint32_t last_irq_time;
+
+void GenerateSineWaveTable(void);
+void FillDMABuffer (uint16_t target_frequency, uint32_t offset);
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

@@ -41,7 +41,7 @@
 
 #define ZERO_OFFSET		32768
 
-#define DMA_BUFFER_SIZE (2 * WAVETABLE_SIZE)
+//#define DMA_BUFFER_SIZE (2 * WAVETABLE_SIZE)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -64,7 +64,7 @@ typedef struct {
 	uint16_t duration_ms;
 } RTTTLNote_t;
 
-const RTTTLNote_t melody[] = {
+RTTTLNote_t melody[] = {
 		{523,	500},
 		{392,	500},
 		{349,	500},
@@ -73,8 +73,8 @@ const RTTTLNote_t melody[] = {
 		{523,	500},
 		{0,		0}
 };
-
 #define MELODY_LENGTH (sizeof(melody) / sizeof(RTTTLNote_t))
+//#define MELODY_LENGTH 7
 
 volatile uint32_t current_note_index = 0;
 volatile uint32_t note_time_remaining_ms = 0;
@@ -362,7 +362,37 @@ void FillDMABuffer(uint16_t target_frequency, uint32_t offset)
 	}
 }
 
+void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s){
+	if (hi2s->Instance == SPI3)
+	{
+		uint32_t elapsed_time = HAL_GetTick() - last_irq_time;
+		note_time_remaining_ms = (note_time_remaining_ms > elapsed_time) ? (note_time_remaining_ms - elapsed_time) : 0;
+		last_irq_time = HAL_GetTick();
 
+		if (note_time_remaining_ms == 0) {
+			current_note_index = (current_note_index + 1) % MELODY_LENGTH;
+			note_time_remaining_ms = melody[current_note_index].duration_ms;
+		}
+
+		FillDMABuffer(melody[current_note_index].frequency, 0);
+	}
+}
+
+void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s){
+	if (hi2s->Instance == SPI3)
+	{
+		uint32_t elapsed_time = HAL_GetTick() - last_irq_time;
+		note_time_remaining_ms = (note_time_remaining_ms > elapsed_time) ? (note_time_remaining_ms - elapsed_time) : 0;
+		last_irq_time = HAL_GetTick();
+
+		if (note_time_remaining_ms == 0) {
+			current_note_index = (current_note_index + 1) % MELODY_LENGTH;
+			note_time_remaining_ms = melody[current_note_index].duration_ms;
+		}
+
+		FillDMABuffer(melody[current_note_index].frequency, DMA_BUFFER_SIZE / 2);
+	}
+}
 /* USER CODE END 4 */
 
 /**

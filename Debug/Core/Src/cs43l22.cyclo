@@ -8,7 +8,5 @@
 ../Core/Src/cs43l22.c:195:5:cs43l22_stop	4
 ../Core/Src/cs43l22.c:220:6:cs43l22_read_reg	1
 ../Core/Src/cs43l22.c:226:5:cs43l22_set_volume	2
-../Core/Src/cs43l22.c:246:6:HAL_I2S_TxCpltCallback	2
-../Core/Src/cs43l22.c:254:6:HAL_I2S_TxHalfCpltCallback	2
 ../Core/Src/cs43l22.c:262:13:AUDIO_I2S_TxCpltCallback	1
 ../Core/Src/cs43l22.c:265:13:AUDIO_I2S_TxHalfCpltCallback	1

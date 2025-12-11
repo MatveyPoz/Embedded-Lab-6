@@ -6,4 +6,6 @@
 ../Core/Src/main.c:292:13:MX_GPIO_Init	1
 ../Core/Src/main.c:321:6:GenerateSineWaveTable	2
 ../Core/Src/main.c:330:6:FillDMABuffer	6
-../Core/Src/main.c:372:6:Error_Handler	1
+../Core/Src/main.c:365:6:HAL_I2S_TxHalfCpltCallback	4
+../Core/Src/main.c:381:6:HAL_I2S_TxCpltCallback	4
+../Core/Src/main.c:402:6:Error_Handler	1

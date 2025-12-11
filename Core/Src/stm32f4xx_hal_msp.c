@@ -24,7 +24,7 @@
 
 /* USER CODE END Includes */
 extern DMA_HandleTypeDef hdma_spi3_tx;
-
+//extern RTTTLNote_t melody[];
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 

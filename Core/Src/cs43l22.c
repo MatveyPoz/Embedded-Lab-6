@@ -243,22 +243,22 @@ int cs43l22_set_volume(uint8_t volume)
 
 }
 
-void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s)
-{
-  if(hi2s == &CS43L22_I2S)
-  {
-	AUDIO_I2S_TxCpltCallback();
-  }
-}
-
-void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
-{
-  if(hi2s == &CS43L22_I2S)
-  {
-
-    AUDIO_I2S_TxHalfCpltCallback();
-  }
-}
+//void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s)
+//{
+//  if(hi2s == &CS43L22_I2S)
+//  {
+//	AUDIO_I2S_TxCpltCallback();
+//  }
+//}
+//
+//void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+//{
+//  if(hi2s == &CS43L22_I2S)
+//  {
+//
+//    AUDIO_I2S_TxHalfCpltCallback();
+//  }
+//}
 __weak void AUDIO_I2S_TxCpltCallback(void)
 {
 }
