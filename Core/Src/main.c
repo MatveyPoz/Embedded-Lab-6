@@ -65,21 +65,66 @@ typedef struct {
 } RTTTLNote_t;
 
 RTTTLNote_t melody[] = {
-		{523,	500},
-		{392,	500},
-		{349,	500},
-		{330,	100},
-		{0,		250},
-		{523,	500},
-		{0,		0}
+		{988, 353}, // B5
+		{0, 1},
+		{988, 353}, // B5
+		{0, 1},
+		{988, 353}, // B5
+		{0, 353},   // Pause
+
+		{988, 353}, // B5
+		{0, 1},
+		{988, 353},
+		{0, 1},
+		{988, 353},
+		{0, 353},   // Pause
+
+		{988, 353},
+		{1175, 353},
+		{784, 530},
+		{880, 176},
+		{988, 1059},
+		{0, 176},
+
+		{1047, 353},
+		{0, 1},
+		{1047, 353},
+		{0, 1},
+		{1047, 530},
+		{0, 1},
+		{1047, 176},
+		{0, 1},
+		{1047, 353},
+		{988, 353},
+		{0, 1},
+		{988, 353},
+		{0, 1},
+		{988, 176},
+		{0, 1},
+		{988, 176},
+		{0, 1},
+		{988, 353},
+
+		{880, 353},
+		{0, 1},
+		{880, 353},
+		{0, 1},
+		{988, 353},
+		{880, 706},
+		{1175, 706},
+
+		{0, 500},		// Pause
+
+		{0, 0}			// End
 };
 #define MELODY_LENGTH (sizeof(melody) / sizeof(RTTTLNote_t))
-//#define MELODY_LENGTH 7
 
 volatile uint32_t current_note_index = 0;
 volatile uint32_t note_time_remaining_ms = 0;
 volatile double current_phase = 0.0;
 uint32_t last_irq_time = 0;
+
+volatile uint8_t melody_repeats = 3;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -370,7 +415,20 @@ void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s){
 		last_irq_time = HAL_GetTick();
 
 		if (note_time_remaining_ms == 0) {
-			current_note_index = (current_note_index + 1) % MELODY_LENGTH;
+			if (current_note_index + 1 >= MELODY_LENGTH)
+			{
+				if (melody_repeats > 0) melody_repeats--;
+				if (melody_repeats == 0)
+				{
+					HAL_GPIO_WritePin(GPIOD, CS43L22_RESET_Pin, GPIO_PIN_RESET);
+					HAL_I2S_DMAStop(&hi2s3);
+					current_note_index = 0;
+					return;
+				}
+				current_note_index = 0;
+			}
+			else current_note_index++;
+			//current_note_index = (current_note_index + 1) % MELODY_LENGTH;
 			note_time_remaining_ms = melody[current_note_index].duration_ms;
 		}
 
@@ -386,7 +444,20 @@ void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s){
 		last_irq_time = HAL_GetTick();
 
 		if (note_time_remaining_ms == 0) {
-			current_note_index = (current_note_index + 1) % MELODY_LENGTH;
+			if (current_note_index + 1 >= MELODY_LENGTH)
+			{
+				if (melody_repeats > 0) melody_repeats--;
+				if (melody_repeats == 0)
+				{
+					HAL_GPIO_WritePin(GPIOD, CS43L22_RESET_Pin, GPIO_PIN_RESET);
+					HAL_I2S_DMAStop(&hi2s3);
+					current_note_index = 0;
+					return;
+				}
+				current_note_index = 0;
+			}
+			else current_note_index++;
+			//current_note_index = (current_note_index + 1) % MELODY_LENGTH;
 			note_time_remaining_ms = melody[current_note_index].duration_ms;
 		}
 

@@ -50,6 +50,8 @@ extern volatile uint32_t note_time_remaining_ms;
 extern volatile double current_phase;
 extern uint32_t last_irq_time;
 
+extern volatile uint8_t melody_repeats;
+
 void GenerateSineWaveTable(void);
 void FillDMABuffer (uint16_t target_frequency, uint32_t offset);
 /* USER CODE END EC */
